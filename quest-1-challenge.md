@@ -29,7 +29,7 @@ gcloud compute instance-templates create web-server-template \
 --tags=allow-health-check \
 --image-family=debian-9 \
 --image-project=debain-project \
---metadata-from-file=~/startup.sh
+--metadata-from-file startup-script=~/startup.sh
 ```
 
 ```
