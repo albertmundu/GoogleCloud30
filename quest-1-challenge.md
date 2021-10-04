@@ -27,15 +27,14 @@ gcloud compute instance-templates create web-server-template \
 --network=default \
 --subnet=default \
 --tags=allow-health-check \
---image-family=debian-9 \
---image-project=debain-project \
---metadata-from-file startup-script=~/startup.sh
+--machine-type g1-small \
+--metadata-from-file startup-script=startup.sh
 ```
 
 ```
 gcloud compute instance-groups managed create web-server-group \
-   --template=web-server-template --size=2 \ --zone=us-east1-b \
-   --region=us-east1
+   --template=web-server-template --size=2 \
+   --zone us-east1-b
 ```
 
 ```
@@ -52,7 +51,7 @@ gcloud compute http-health-checks create http-basic-check
 gcloud compute instance-groups managed \
           set-named-ports web-server-group \
           --named-ports http:80 \
-          --region us-east1
+          --zone us-east1-b
 ```
 
 ```
@@ -65,7 +64,7 @@ gcloud compute backend-services create web-server-backend \
 ```
 gcloud compute backend-services add-backend web-server-backend \
           --instance-group web-server-group \
-          --instance-group-region us-east1 \
+          --instance-group-zone us-east1-b \
           --global
 ```
 
